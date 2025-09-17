@@ -118,6 +118,35 @@
 
 ---
 
+## 🗃️ Dataset Components
+
+#### 1. Original Data
+* **Original Images (1,040 images)**: These are the original images of roads.
+
+#### 2. Synthetic Data (for YOLO Training)
+* **Asphalt Mask Images (1,040 images)**: Binary mask images created using the `mask.py` script, which isolates only the asphalt area from the original images. These masks are used to determine where to place the synthesized potholes.
+* **Pothole Images for Synthesis (50 images)**: A collection of various pothole images used for synthesizing onto the road images.
+
+#### 3. Final Dataset Structure and Files (for Detectron2 Training)
+* **`dataset/train/`**: This directory contains the data used for model training.
+    * `images/`: Original images.
+    * `images_augmented/`: Augmented images with changed asphalt colors, created using `augment_dataset.py`.
+    * `labels/`: Pothole label files in YOLO format (`.txt` files).
+    * `annotations.json`: COCO-format annotations for the original data.
+* **`dataset/val/`**: This directory contains the data used for model validation.
+    * `images/`: Original images.
+    * `images_augmented/`: Augmented images with changed asphalt colors, created using `augment_dataset.py`.
+    * `labels/`: Pothole label files in YOLO format (`.txt` files).
+    * `annotations.json`: COCO-format annotations for the original data.
+* **`dataset/test/`**: This directory contains the data used for final model performance testing.
+    * `images/`: Original images for testing.
+    * `labels/`: Pothole label files in YOLO format (`.txt` files).
+
+#### 4. Model Weight File
+* **SAM Model Weights (`sam_vit_h_4b8939.pth`)**: A pre-trained weight file for the **Segment Anything Model (SAM)**, used by the `generate_sam_annotations.py` script to convert Bbox annotations into Polygon annotations.
+
+---
+
 ## 📜 코드 실행 순서
 
 1.  **합성 데이터셋 생성 (YOLO)**
@@ -236,14 +265,14 @@
 
 ---
 
-### 🗃️ 데이터셋 구성 요소
+## 🗃️ 데이터셋 구성 요소
 
 #### 1. 원본 데이터
-* **원본 이미지 (1,040장)**: 실제 도로가 촬영된 원본 이미지이다.
+* **원본 이미지 (1,040장)**: 실제 도로가 촬영된 원본 이미지
 
 #### 2. 합성 데이터 (YOLO 학습용)
-* **아스팔트 마스크 이미지 (1,040장)**: `mask.py` 스크립트를 사용하여 원본 이미지에서 아스팔트 영역만 분리한 이진 마스크 이미지이다. 이 마스크는 포트홀을 합성할 위치를 지정하는 데 활용된다.
-* **합성에 사용된 포트홀 이미지 (50장)**: 도로 이미지에 합성하기 위해 수집된 다양한 포트홀 이미지이다.
+* **아스팔트 마스크 이미지 (1,040장)**: `mask.py` 스크립트를 사용하여 원본 이미지에서 아스팔트 영역만 분리한 이진 마스크 이미지
+* **합성에 사용된 포트홀 이미지 (50장)**: 도로 이미지에 합성하기 위해 수집된 다양한 포트홀 이미지
 
 #### 3. 최종 데이터셋 구조 및 파일 (Detectron2 학습용)
 * **`dataset/train/`**: 모델 학습에 사용되는 데이터셋
@@ -261,4 +290,4 @@
     * `labels/`: YOLO 형식의 포트홀 라벨 파일 (`.txt` 형식)
 
 #### 4. 모델 가중치 파일
-* **SAM 모델 가중치 파일 (`sam_vit_h_4b8939.pth`)**: `generate_sam_annotations.py` 스크립트에서 Bbox를 Polygon 주석으로 변환하는 데 사용된 **Segment Anything Model (SAM)**의 사전 훈련된 가중치 파일
+* **SAM 모델 가중치 파일 (`sam_vit_h_4b8939.pth`)**: `generate_sam_annotations.py` 스크립트에서 Bbox를 Polygon 주석으로 변환하는 데 사용된 Segment Anything Model (SAM)의 사전 훈련된 가중치 파일
